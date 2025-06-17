@@ -1,0 +1,2819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CADdrive Requirements Engineering Framework</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #3f37c9;
+            --dark: #1b263b;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f72585;
+            --gray: #adb5bd;
+            --gray-light: #e9ecef;
+            --mechanical: #1abc9c;
+            --electrical: #d35400;
+            --software: #8e44ad;
+            --embedded: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            height: auto;
+            min-height: 400px;
+            position: sticky;
+            top: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover {
+            background: var(--gray-light);
+        }
+        
+        .nav-link.active {
+            background: var(--primary-light);
+            color: white;
+        }
+        
+        .nav-link i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .framework-flow {
+            background: var(--gray-light);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: auto;
+        }
+        
+        .flow-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+        
+        .flow-steps {
+            list-style: none;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .flow-step.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .flow-step-number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gray);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .flow-step.active .flow-step-number {
+            background: var(--primary);
+        }
+        
+        .flow-step.completed .flow-step-number {
+            background: var(--success);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .page-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-title i {
+            color: var(--primary-light);
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        
+        .form-hint {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--dark);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #3db8df;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.2);
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.25rem;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        /* Requirements List */
+        .requirements-list {
+            list-style: none;
+        }
+        
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--gray-light);
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .requirement-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .requirement-item.validated {
+            background: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .requirement-item.failed {
+            background: rgba(247, 37, 133, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .requirement-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .requirement-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .requirement-meta {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .requirement-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-mechanical {
+            background: rgba(26, 188, 156, 0.1);
+            color: var(--mechanical);
+        }
+        
+        .badge-electrical {
+            background: rgba(211, 84, 0, 0.1);
+            color: var(--electrical);
+        }
+        
+        .badge-software {
+            background: rgba(142, 68, 173, 0.1);
+            color: var(--software);
+        }
+        
+        .badge-embedded {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--embedded);
+        }
+        
+        .badge-must-have {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+        
+        .badge-performance {
+            background: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-attractive {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-validated {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-pending {
+            background: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-failed {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Rule Editor */
+        .rule-editor {
+            background: var(--dark);
+            color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .rule-line {
+            margin-bottom: 0.5rem;
+        }
+        
+        .rule-keyword {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+        
+        .rule-value {
+            color: var(--success);
+        }
+        
+        .rule-operator {
+            color: var(--warning);
+        }
+        
+        .rule-comment {
+            color: var(--gray);
+            font-style: italic;
+        }
+        
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* Progress Bars */
+        .progress-container {
+            margin-top: 1rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        /* Traceability Diagram */
+        .traceability-diagram {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .diagram-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .diagram-container {
+            position: relative;
+            height: 300px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        /* CAD Component Link */
+        .cad-component-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--gray-light);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .component-preview {
+            width: 80px;
+            height: 80px;
+            background: var(--dark);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .component-info {
+            flex: 1;
+        }
+        
+        .component-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .component-meta {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+           /* Issues and Milestones Sections */
+        .issues-section, .milestones-section {
+            margin-top: 1.5rem;
+        }
+        
+        /* Card sizing for Issues and Milestones */
+        #issues-section .card, #milestones-section .card {
+            max-width: 100%;
+            overflow-x: auto;
+            margin-top: 0;
+        }
+        
+        /* Form layout improvements */
+        #issues-section .form-row, #milestones-section .form-row {
+            flex-wrap: wrap;
+        }
+        
+        #issues-section .form-col, #milestones-section .form-col {
+            min-width: 250px;
+        }
+        
+        /* Fix vertical alignment */
+        #issues-section, #milestones-section {
+            margin-top: 0;
+            padding-top: 0;
+        }
+        
+        #issues-section .page-header, #milestones-section .page-header {
+            margin-top: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {{
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-project-diagram"></i>
+                <span>CADdrive</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline btn-sm" id="helpBtn">
+                    <i class="fas fa-question-circle"></i> Help
+                </button>
+                <div class="user-info">
+                    <div class="user-avatar">JD</div>
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-layout">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h2 class="sidebar-title">Requirements Engineering</h2>
+                    <p class="sidebar-subtitle">Project: Smart Rotating Greenhouse</p>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-section="dashboard">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="issues">
+                            <i class="fas fa-tasks"></i> Issues
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="scenarios">
+                            <i class="fas fa-scroll"></i> Scenarios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="requirements">
+                            <i class="fas fa-list-check"></i> Requirements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="rules">
+                            <i class="fas fa-code"></i> Rules
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="milestones">
+                            <i class="fas fa-flag"></i> Milestones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="kano">
+                            <i class="fas fa-layer-group"></i> Kano Model
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="cad">
+                            <i class="fas fa-cubes"></i> CAD Components
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-section="reports">
+                            <i class="fas fa-chart-line"></i> Reports
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Framework Flow removed as requested -->
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Dashboard Section -->
+                <div class="content-section active" id="dashboard-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Requirements Engineering Dashboard</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-outline" id="exportBtn">
+                                <i class="fas fa-file-export"></i> Export
+                            </button>
+                            <button class="btn btn-primary" id="newRequirementBtn">
+                                <i class="fas fa-plus"></i> New Requirement
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Overview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-chart-pie"></i> Project Overview
+                            </h2>
+                            <div class="card-actions">
+                                <button class="btn btn-outline btn-sm" id="refreshBtn">
+                                    <i class="fas fa-sync"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">42</div>
+                                <div class="stat-label">Total Requirements</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">28</div>
+                                <div class="stat-label">Validated</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">7</div>
+                                <div class="stat-label">Failed</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">7</div>
+                                <div class="stat-label">Pending</div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 67%;"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>Overall Progress</span>
+                                <span>67%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Requirements by Domain -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-sitemap"></i> Requirements by Domain
+                            </h2>
+                            <div class="card-actions">
+                                <button class="btn btn-outline btn-sm" id="filterBtn">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="tabs">
+                            <div class="tab active" data-domain="all">All Domains</div>
+                            <div class="tab" data-domain="mechanical">Mechanical</div>
+                            <div class="tab" data-domain="electrical">Electrical</div>
+                            <div class="tab" data-domain="software">Software</div>
+                            <div class="tab" data-domain="embedded">Embedded</div>
+                        </div>
+                        
+                        <ul class="requirements-list">
+                            <li class="requirement-item validated" data-domain="mechanical">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">R-001: The rotation mechanism shall operate under 30W power</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-mechanical">Mechanical</span>
+                                        <span class="badge badge-must-have">Must-Have</span>
+                                        <span class="badge badge-validated">Validated</span>
+                                        <span>From: Power Efficiency Scenario</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm requirement-link-btn">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn btn-outline btn-sm requirement-edit-btn" data-req="R-001">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item failed" data-domain="embedded">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">R-002: The system shall maintain internal temperature within ±2°C of target</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-embedded">Embedded</span>
+                                        <span class="badge badge-performance">Performance</span>
+                                        <span class="badge badge-failed">Failed</span>
+                                        <span>From: Climate Control Scenario</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm requirement-link-btn">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn btn-outline btn-sm requirement-edit-btn" data-req="R-002">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item" data-domain="software">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">R-003: The user interface shall display real-time energy consumption</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-software">Software</span>
+                                        <span class="badge badge-attractive">Attractive</span>
+                                        <span class="badge badge-pending">Pending</span>
+                                        <span>From: User Monitoring Scenario</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm requirement-link-btn">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn btn-outline btn-sm requirement-edit-btn" data-req="R-003">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Scenarios Section -->
+                <div class="content-section" id="scenarios-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Scenarios</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="newScenarioBtn">
+                                <i class="fas fa-plus"></i> New Scenario
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-scroll"></i> Define Your Design Scenario
+                            </h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Scenario Title</label>
+                            <input type="text" class="form-control" placeholder="e.g., Autonomous Vehicle Parking System">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Scenario Description</label>
+                            <textarea class="form-control" placeholder="Describe the scenario in detail..."></textarea>
+                            <span class="form-hint">Provide a detailed narrative of the design scenario, including context, users, and environment.</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Tasks (What needs to be done?)</label>
+                            <textarea class="form-control" placeholder="List the tasks required for this scenario..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Goals (Why is it being done?)</label>
+                            <textarea class="form-control" placeholder="Define the goals for this scenario..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Scenario
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-list"></i> Existing Scenarios
+                            </h2>
+                        </div>
+                        
+                        <ul class="requirements-list">
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Power Efficiency Scenario</div>
+                                    <div class="requirement-meta">
+                                        <span>3 Tasks</span>
+                                        <span>2 Goals</span>
+                                        <span>4 Requirements</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Climate Control Scenario</div>
+                                    <div class="requirement-meta">
+                                        <span>4 Tasks</span>
+                                        <span>2 Goals</span>
+                                        <span>5 Requirements</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">User Monitoring Scenario</div>
+                                    <div class="requirement-meta">
+                                        <span>2 Tasks</span>
+                                        <span>1 Goal</span>
+                                        <span>3 Requirements</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Requirements Section -->
+                <div class="content-section" id="requirements-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Requirements</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="newRequirementPageBtn">
+                                <i class="fas fa-plus"></i> New Requirement
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Requirement Detail -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-file-alt"></i> Requirement Detail: R-001
+                            </h2>
+                            <div class="card-actions">
+                                <button class="btn btn-success btn-sm" id="validateBtn">
+                                    <i class="fas fa-check"></i> Validated
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Requirement ID</label>
+                                    <input type="text" class="form-control" value="R-001" readonly>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Domain</label>
+                                    <select class="form-control" id="domainSelect">
+                                        <option selected>Mechanical</option>
+                                        <option>Electrical</option>
+                                        <option>Software</option>
+                                        <option>Embedded</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Kano Classification</label>
+                                    <select class="form-control" id="kanoSelect">
+                                        <option selected>Must-Have</option>
+                                        <option>Performance</option>
+                                        <option>Attractive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Requirement Statement</label>
+                            <textarea class="form-control" id="requirementStatement">The rotation mechanism shall operate under 30W power consumption during normal operation.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Source</label>
+                            <div class="form-control">
+                                Scenario: Power Efficiency Scenario<br>
+                                Task: Optimize energy consumption<br>
+                                Goal: Reduce operational costs
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Validation Rule</label>
+                            <div class="rule-editor">
+                                <div class="rule-line"><span class="rule-keyword">IF</span> power_consumption <span class="rule-operator">></span> <span class="rule-value">30</span> <span class="rule-keyword">THEN</span></div>
+                                <div class="rule-line">    <span class="rule-keyword">RETURN</span> ValidationResult.Failure</div>
+                                <div class="rule-line">    <span class="rule-keyword">WITH</span> Message = <span class="rule-value">"Power consumption exceeds 30W limit"</span></div>
+                                <div class="rule-line"><span class="rule-keyword">ELSE</span></div>
+                                <div class="rule-line">    <span class="rule-keyword">RETURN</span> ValidationResult.Success</div>
+                                <div class="rule-line"><span class="rule-keyword">END IF</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Connected Issues</label>
+                            <div class="requirements-list">
+                                <div class="requirement-item">
+                                    <div class="requirement-info">
+                                        <div class="requirement-title">I-001: Implement power consumption monitoring</div>
+                                        <div class="requirement-meta">
+                                            <span class="badge badge-pending">Open</span>
+                                            <span>Milestone: Sprint 1</span>
+                                        </div>
+                                    </div>
+                                    <div class="requirement-actions">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-sm" style="margin-top: 0.5rem;">
+                                <i class="fas fa-plus"></i> Connect Issue
+                            </button>
+                        </div>
+                        
+                        <div class="cad-component-link">
+                            <div class="component-preview">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="component-info">
+                                <div class="component-name">Rotation_Mechanism_Assembly</div>
+                                <div class="component-meta">
+                                    Type: Assembly | Version: 2.3 | Last Modified: 2025-05-28
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-sm" id="openCadBtn">
+                                <i class="fas fa-external-link-alt"></i> Open in CAD
+                            </button>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <button class="btn btn-primary" id="saveRequirementBtn">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Rules Section -->
+                <div class="content-section" id="rules-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Validation Rules</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="newRuleBtn">
+                                <i class="fas fa-plus"></i> New Rule
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-code"></i> Rule Editor
+                            </h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Rule Name</label>
+                            <input type="text" class="form-control" value="Power_Consumption_Check">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Associated Requirement</label>
+                            <select class="form-control">
+                                <option selected>R-001: The rotation mechanism shall operate under 30W power</option>
+                                <option>R-002: The system shall maintain internal temperature within ±2°C of target</option>
+                                <option>R-003: The user interface shall display real-time energy consumption</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Rule Definition</label>
+                            <textarea class="form-control" style="font-family: 'Courier New', monospace; height: 200px;">IF power_consumption > 30 THEN
+    RETURN ValidationResult.Failure
+    WITH Message = "Power consumption exceeds 30W limit"
+ELSE
+    RETURN ValidationResult.Success
+END IF</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Trigger Condition</label>
+                            <select class="form-control">
+                                <option selected>On Simulation Run</option>
+                                <option>On Parameter Change</option>
+                                <option>On Manual Validation</option>
+                                <option>On Component Update</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="saveRuleBtn">
+                                <i class="fas fa-save"></i> Save Rule
+                            </button>
+                            <button class="btn btn-outline" id="testRuleBtn">
+                                <i class="fas fa-vial"></i> Test Rule
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-list"></i> Existing Rules
+                            </h2>
+                        </div>
+                        
+                        <ul class="requirements-list">
+                            <li class="requirement-item validated">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Power_Consumption_Check</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-validated">Passing</span>
+                                        <span>For: R-001</span>
+                                        <span>Trigger: On Simulation Run</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item failed">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Temperature_Control_Check</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-failed">Failing</span>
+                                        <span>For: R-002</span>
+                                        <span>Trigger: On Parameter Change</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Kano Model Section -->
+                <div class="content-section" id="kano-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Kano Model Classification</h1>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-layer-group"></i> Kano Categories
+                            </h2>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" style="-webkit-text-fill-color: var(--danger);">18</div>
+                                <div class="stat-label">Must-Have Requirements</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" style="-webkit-text-fill-color: var(--warning);">15</div>
+                                <div class="stat-label">Performance Requirements</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" style="-webkit-text-fill-color: var(--success);">9</div>
+                                <div class="stat-label">Attractive Requirements</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 2rem;">
+                            <label class="form-label">Requirement</label>
+                            <select class="form-control" id="kanoRequirementSelect">
+                                <option selected>R-001: The rotation mechanism shall operate under 30W power</option>
+                                <option>R-002: The system shall maintain internal temperature within ±2°C of target</option>
+                                <option>R-003: The user interface shall display real-time energy consumption</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Kano Classification</label>
+                            <div class="kano-tags">
+                                <div class="kano-tag must-have active" data-kano="must-have">Must-Have</div>
+                                <div class="kano-tag performance" data-kano="performance">Performance</div>
+                                <div class="kano-tag attractive" data-kano="attractive">Attractive</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Classification Rationale</label>
+                            <textarea class="form-control">This requirement is essential for the system to function properly. Without meeting the power consumption limit, the rotation mechanism would not be viable for the intended application.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="saveKanoBtn">
+                                <i class="fas fa-save"></i> Save Classification
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CAD Components Section -->
+                <div class="content-section" id="cad-section">
+                    <div class="page-header">
+                        <h1 class="page-title">CAD Components</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="linkComponentBtn">
+                                <i class="fas fa-link"></i> Link Component
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-cubes"></i> Component Browser
+                            </h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Search Components</label>
+                            <input type="text" class="form-control" placeholder="Search by name, type, or ID...">
+                        </div>
+                        
+                        <ul class="requirements-list">
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Rotation_Mechanism_Assembly</div>
+                                    <div class="requirement-meta">
+                                        <span>Type: Assembly</span>
+                                        <span>Version: 2.3</span>
+                                        <span>Requirements: 4</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Temperature_Sensor_Array</div>
+                                    <div class="requirement-meta">
+                                        <span>Type: Component</span>
+                                        <span>Version: 1.5</span>
+                                        <span>Requirements: 3</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Control_Panel_Interface</div>
+                                    <div class="requirement-meta">
+                                        <span>Type: Component</span>
+                                        <span>Version: 2.0</span>
+                                        <span>Requirements: 5</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-link"></i> Component-Requirement Links
+                            </h2>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Component</label>
+                                    <select class="form-control">
+                                        <option selected>Rotation_Mechanism_Assembly</option>
+                                        <option>Temperature_Sensor_Array</option>
+                                        <option>Control_Panel_Interface</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Requirement</label>
+                                    <select class="form-control">
+                                        <option selected>R-001: The rotation mechanism shall operate under 30W power</option>
+                                        <option>R-002: The system shall maintain internal temperature within ±2°C of target</option>
+                                        <option>R-003: The user interface shall display real-time energy consumption</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Link Type</label>
+                            <select class="form-control">
+                                <option selected>Direct Implementation</option>
+                                <option>Partial Implementation</option>
+                                <option>Dependency</option>
+                                <option>Reference</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="createLinkBtn">
+                                <i class="fas fa-plus"></i> Create Link
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reports Section -->
+                <div class="content-section" id="reports-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Reports</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="generateReportBtn">
+                                <i class="fas fa-file-export"></i> Generate Report
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-chart-line"></i> Requirements Status
+                            </h2>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">67%</div>
+                                <div class="stat-label">Overall Completion</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">75%</div>
+                                <div class="stat-label">Mechanical Domain</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">60%</div>
+                                <div class="stat-label">Electrical Domain</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">50%</div>
+                                <div class="stat-label">Software Domain</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-file-alt"></i> Available Reports
+                            </h2>
+                        </div>
+                        
+                        <ul class="requirements-list">
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Requirements Validation Summary</div>
+                                    <div class="requirement-meta">
+                                        <span>Generated: 2025-05-30</span>
+                                        <span>Format: PDF</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Kano Classification Analysis</div>
+                                    <div class="requirement-meta">
+                                        <span>Generated: 2025-05-28</span>
+                                        <span>Format: Excel</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Traceability Matrix</div>
+                                    <div class="requirement-meta">
+                                        <span>Generated: 2025-05-25</span>
+                                        <span>Format: PDF</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Traceability Diagram -->
+                    <div class="traceability-diagram">
+                        <h3 class="diagram-title">Requirement Traceability</h3>
+                        <div class="diagram-container">
+                            <div id="traceability-svg-container" style="width: 100%; height: 300px;"></div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        // Interactive Traceability Diagram
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Only initialize the diagram when the Reports tab is active
+                            function initTraceabilityDiagram() {
+                                const container = document.getElementById('traceability-svg-container');
+                                if (!container || container.innerHTML !== '') return;
+                                
+                                // SVG namespace
+                                const svgNS = "http://www.w3.org/2000/svg";
+                                
+                                // Create SVG element
+                                const svg = document.createElementNS(svgNS, "svg");
+                                svg.setAttribute("width", "100%");
+                                svg.setAttribute("height", "100%");
+                                svg.setAttribute("viewBox", "0 0 800 300");
+                                container.appendChild(svg);
+                                
+                                // Background
+                                const background = document.createElementNS(svgNS, "rect");
+                                background.setAttribute("x", "0");
+                                background.setAttribute("y", "0");
+                                background.setAttribute("width", "800");
+                                background.setAttribute("height", "300");
+                                background.setAttribute("fill", "#f8f9fa");
+                                svg.appendChild(background);
+                                
+                                // Node data
+                                const nodes = [
+                                    { id: "scenario", x: 125, y: 80, width: 150, height: 60, rx: 8, color: "#4895ef", opacity: 0.8, title: "Power Efficiency", subtitle: "Scenario" },
+                                    { id: "task", x: 325, y: 80, width: 150, height: 60, rx: 8, color: "#4895ef", opacity: 0.6, title: "Optimize Energy", subtitle: "Task" },
+                                    { id: "goal", x: 525, y: 80, width: 150, height: 60, rx: 8, color: "#4895ef", opacity: 0.4, title: "Reduce Costs", subtitle: "Goal", textColor: "#1b263b" },
+                                    { id: "requirement", x: 325, y: 180, width: 150, height: 60, rx: 8, color: "#f72585", opacity: 0.8, title: "R-001: 30W Limit", subtitle: "Requirement" },
+                                    { id: "rule", x: 125, y: 180, width: 150, height: 60, rx: 8, color: "#4cc9f0", opacity: 0.8, title: "Power <= 30W", subtitle: "Rule" },
+                                    { id: "cad", x: 525, y: 180, width: 150, height: 60, rx: 8, color: "#8e44ad", opacity: 0.8, title: "Rotation Mechanism", subtitle: "CAD Component" },
+                                    { id: "kano", x: 325, y: 275, width: 150, height: 40, rx: 8, color: "#f8961e", opacity: 0.8, title: "Must-Have", subtitle: "" }
+                                ];
+                                
+                                // Connection data
+                                const connections = [
+                                    { from: "scenario", to: "task", x1: 200, y1: 80, x2: 250, y2: 80 },
+                                    { from: "task", to: "goal", x1: 400, y1: 80, x2: 450, y2: 80 },
+                                    { from: "scenario", to: "rule", x1: 125, y1: 110, x2: 125, y2: 150 },
+                                    { from: "task", to: "requirement", x1: 325, y1: 110, x2: 325, y2: 150 },
+                                    { from: "goal", to: "cad", x1: 525, y1: 110, x2: 525, y2: 150 },
+                                    { from: "rule", to: "requirement", x1: 200, y1: 180, x2: 250, y2: 180 },
+                                    { from: "requirement", to: "cad", x1: 400, y1: 180, x2: 450, y2: 180 },
+                                    { from: "requirement", to: "kano", x1: 325, y1: 210, x2: 325, y2: 250, dashed: true }
+                                ];
+                                
+                                // Draw connections
+                                connections.forEach(conn => {
+                                    const line = document.createElementNS(svgNS, "line");
+                                    line.setAttribute("x1", conn.x1);
+                                    line.setAttribute("y1", conn.y1);
+                                    line.setAttribute("x2", conn.x2);
+                                    line.setAttribute("y2", conn.y2);
+                                    line.setAttribute("stroke", "#1b263b");
+                                    line.setAttribute("stroke-width", "2");
+                                    if (conn.dashed) {
+                                        line.setAttribute("stroke-dasharray", "5,5");
+                                    }
+                                    svg.appendChild(line);
+                                });
+                                
+                                // Draw nodes
+                                nodes.forEach(node => {
+                                    const group = document.createElementNS(svgNS, "g");
+                                    group.setAttribute("id", node.id);
+                                    group.setAttribute("class", "node");
+                                    group.style.cursor = "pointer";
+                                    
+                                    // Node rectangle
+                                    const rect = document.createElementNS(svgNS, "rect");
+                                    rect.setAttribute("x", node.x - node.width/2);
+                                    rect.setAttribute("y", node.y - node.height/2);
+                                    rect.setAttribute("width", node.width);
+                                    rect.setAttribute("height", node.height);
+                                    rect.setAttribute("rx", node.rx);
+                                    rect.setAttribute("ry", node.rx);
+                                    rect.setAttribute("fill", node.color);
+                                    rect.setAttribute("opacity", node.opacity);
+                                    group.appendChild(rect);
+                                    
+                                    // Node title
+                                    const title = document.createElementNS(svgNS, "text");
+                                    title.setAttribute("x", node.x);
+                                    title.setAttribute("y", node.subtitle ? node.y - 5 : node.y + 5);
+                                    title.setAttribute("text-anchor", "middle");
+                                    title.setAttribute("fill", node.textColor || "white");
+                                    title.setAttribute("font-family", "Arial");
+                                    title.setAttribute("font-weight", "bold");
+                                    title.textContent = node.title;
+                                    group.appendChild(title);
+                                    
+                                    // Node subtitle
+                                    if (node.subtitle) {
+                                        const subtitle = document.createElementNS(svgNS, "text");
+                                        subtitle.setAttribute("x", node.x);
+                                        subtitle.setAttribute("y", node.y + 15);
+                                        subtitle.setAttribute("text-anchor", "middle");
+                                        subtitle.setAttribute("fill", node.textColor || "white");
+                                        subtitle.setAttribute("font-family", "Arial");
+                                        subtitle.setAttribute("font-size", "12");
+                                        subtitle.textContent = node.subtitle;
+                                        group.appendChild(subtitle);
+                                    }
+                                    
+                                    // Add hover effect
+                                    group.addEventListener('mouseover', function() {
+                                        rect.setAttribute("opacity", "1");
+                                        rect.setAttribute("stroke", "#1b263b");
+                                        rect.setAttribute("stroke-width", "2");
+                                    });
+                                    
+                                    group.addEventListener('mouseout', function() {
+                                        rect.setAttribute("opacity", node.opacity);
+                                        rect.setAttribute("stroke", "none");
+                                    });
+                                    
+                                    // Add click effect to show details
+                                    group.addEventListener('click', function() {
+                                        alert(`${node.title} - ${node.subtitle}\nClick for more details in a real implementation.`);
+                                    });
+                                    
+                                    svg.appendChild(group);
+                                });
+                            }
+                            
+                            // Initialize diagram when Reports tab is clicked
+                            document.querySelectorAll('.nav-link').forEach(link => {
+                                link.addEventListener('click', function() {
+                                    if (this.getAttribute('data-section') === 'reports') {
+                                        setTimeout(initTraceabilityDiagram, 100);
+                                    }
+                                });
+                            });
+                            
+                            // Check if Reports tab is already active
+                            if (document.querySelector('.nav-link[data-section="reports"].active')) {
+                                setTimeout(initTraceabilityDiagram, 100);
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Links
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Update active nav link
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === `${targetSection}-section`) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Domain Tabs
+            const domainTabs = document.querySelectorAll('.tab[data-domain]');
+            const requirementItems = document.querySelectorAll('.requirement-item[data-domain]');
+            
+            domainTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const domain = this.getAttribute('data-domain');
+                    
+                    // Update active tab
+                    domainTabs.forEach(domainTab => domainTab.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter requirements
+                    requirementItems.forEach(item => {
+                        if (domain === 'all' || item.getAttribute('data-domain') === domain) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Requirement Edit Buttons
+            const requirementEditBtns = document.querySelectorAll('.requirement-edit-btn');
+            
+            requirementEditBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const reqId = this.getAttribute('data-req');
+                    
+                    // Navigate to requirements section
+                    navLinks.forEach(navLink => {
+                        if (navLink.getAttribute('data-section') === 'requirements') {
+                            navLink.click();
+                        }
+                    });
+                    
+                    // Update requirement ID in the form
+                    document.querySelector('.card-title').innerHTML = `<i class="fas fa-file-alt"></i> Requirement Detail: ${reqId}`;
+                });
+            });
+            
+            // Kano Tags
+            const kanoTags = document.querySelectorAll('.kano-tag');
+            
+            kanoTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    kanoTags.forEach(kanoTag => kanoTag.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Button Actions
+            document.getElementById('helpBtn').addEventListener('click', function() {
+                alert('Help documentation for the Requirements Engineering Framework');
+            });
+            
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                alert('Exporting requirements data...');
+            });
+            
+            document.getElementById('newRequirementBtn').addEventListener('click', function() {
+                navLinks.forEach(navLink => {
+                    if (navLink.getAttribute('data-section') === 'requirements') {
+                        navLink.click();
+                    }
+                });
+            });
+            
+            document.getElementById('refreshBtn').addEventListener('click', function() {
+                alert('Refreshing dashboard data...');
+            });
+            
+            document.getElementById('filterBtn').addEventListener('click', function() {
+                alert('Opening filter options...');
+            });
+            
+            document.getElementById('validateBtn').addEventListener('click', function() {
+                alert('Requirement validated successfully!');
+            });
+            
+            document.getElementById('saveRequirementBtn').addEventListener('click', function() {
+                alert('Requirement changes saved successfully!');
+            });
+            
+            document.getElementById('openCadBtn').addEventListener('click', function() {
+                alert('Opening CAD component in external application...');
+            });
+            
+            document.getElementById('newScenarioBtn').addEventListener('click', function() {
+                alert('Creating new scenario...');
+            });
+            
+            document.getElementById('newRequirementPageBtn').addEventListener('click', function() {
+                alert('Creating new requirement...');
+            });
+            
+            document.getElementById('newRuleBtn').addEventListener('click', function() {
+                alert('Creating new validation rule...');
+            });
+            
+            document.getElementById('saveRuleBtn').addEventListener('click', function() {
+                alert('Rule saved successfully!');
+            });
+            
+            document.getElementById('testRuleBtn').addEventListener('click', function() {
+                alert('Rule test passed: Power consumption is under 30W limit');
+            });
+            
+            document.getElementById('saveKanoBtn').addEventListener('click', function() {
+                alert('Kano classification saved successfully!');
+            });
+            
+            document.getElementById('linkComponentBtn').addEventListener('click', function() {
+                alert('Select a component to link...');
+            });
+            
+            document.getElementById('createLinkBtn').addEventListener('click', function() {
+                alert('Component-Requirement link created successfully!');
+            });
+            
+            document.getElementById('generateReportBtn').addEventListener('click', function() {
+                alert('Generating new report...');
+            });
+            
+            // New button actions for Issues and Milestones
+            if (document.getElementById('newIssueBtn')) {
+                document.getElementById('newIssueBtn').addEventListener('click', function() {
+                    alert('Creating new issue...');
+                });
+            }
+            
+            if (document.getElementById('completeIssueBtn')) {
+                document.getElementById('completeIssueBtn').addEventListener('click', function() {
+                    alert('Issue marked as complete!');
+                });
+            }
+            
+            if (document.getElementById('saveIssueBtn')) {
+                document.getElementById('saveIssueBtn').addEventListener('click', function() {
+                    alert('Issue saved successfully!');
+                });
+            }
+            
+            if (document.getElementById('filterIssuesBtn')) {
+                document.getElementById('filterIssuesBtn').addEventListener('click', function() {
+                    alert('Filtering issues...');
+                });
+            }
+            
+            if (document.getElementById('newMilestoneBtn')) {
+                document.getElementById('newMilestoneBtn').addEventListener('click', function() {
+                    alert('Creating new milestone...');
+                });
+            }
+            
+            if (document.getElementById('editMilestoneBtn')) {
+                document.getElementById('editMilestoneBtn').addEventListener('click', function() {
+                    alert('Editing milestone...');
+                });
+            }
+            
+            if (document.getElementById('saveMilestoneBtn')) {
+                document.getElementById('saveMilestoneBtn').addEventListener('click', function() {
+                    alert('Milestone saved successfully!');
+                });
+            }
+            
+            // Traceability diagram interactivity
+            const diagramNodes = document.querySelectorAll('#diagram-nodes .node');
+            const detailsContainer = document.getElementById('diagram-selected-details');
+            
+            // Milestone traceability diagram interactivity
+            const milestoneNodes = document.querySelectorAll('#milestone-diagram-nodes .node');
+            const milestoneDetailsContainer = document.getElementById('milestone-diagram-details');
+            
+            if (diagramNodes && detailsContainer) {
+                diagramNodes.forEach(node => {
+                    node.addEventListener('click', function() {
+                        // Reset all nodes
+                        diagramNodes.forEach(n => {
+                            const circle = n.querySelector('circle');
+                            if (circle) {
+                                circle.setAttribute('stroke', 'none');
+                                circle.setAttribute('stroke-width', '0');
+                            }
+                        });
+                        
+                        // Highlight selected node
+                        const circle = this.querySelector('circle');
+                        if (circle) {
+                            circle.setAttribute('stroke', '#ffffff');
+                            circle.setAttribute('stroke-width', '3');
+                        }
+                        
+                        // Get node type from class
+                        const nodeClass = this.getAttribute('class');
+                        let nodeType = 'Unknown';
+                        let details = '';
+                        
+                        if (nodeClass.includes('requirement-node')) {
+                            nodeType = 'Requirement';
+                            details = `
+                                <h4>Requirements</h4>
+                                <p>Total: 42 requirements</p>
+                                <ul>
+                                    <li>R-001: The rotation mechanism shall operate under 30W power</li>
+                                    <li>R-002: The system shall maintain internal temperature within ±2°C of target</li>
+                                    <li>R-003: The user interface shall display real-time energy consumption</li>
+                                </ul>
+                                <p><strong>Connected to:</strong> Issues, Rules, CAD Components</p>
+                            `;
+                        } else if (nodeClass.includes('issue-node')) {
+                            nodeType = 'Issue';
+                            details = `
+                                <h4>Issues</h4>
+                                <p>Total: 12 issues (3 open, 8 in progress, 1 closed)</p>
+                                <ul>
+                                    <li>I-001: Implement power consumption monitoring</li>
+                                    <li>I-002: Design temperature control system</li>
+                                    <li>I-003: Create user interface mockups</li>
+                                </ul>
+                                <p><strong>Connected to:</strong> Requirements, Milestones, CAD Components</p>
+                            `;
+                        } else if (nodeClass.includes('milestone-node')) {
+                            nodeType = 'Milestone';
+                            details = `
+                                <h4>Milestones</h4>
+                                <p>Total: 3 milestones</p>
+                                <ul>
+                                    <li>Sprint 1: Jun 1 - Jun 14, 2025 (In Progress)</li>
+                                    <li>Sprint 2: Jun 15 - Jun 28, 2025 (Planned)</li>
+                                    <li>Release 1.0: Jul 15, 2025 (Planned)</li>
+                                </ul>
+                                <p><strong>Connected to:</strong> Issues, Dashboard</p>
+                            `;
+                        } else if (nodeClass.includes('cad-node')) {
+                            nodeType = 'CAD Component';
+                            details = `
+                                <h4>CAD Components</h4>
+                                <p>Total: 15 components</p>
+                                <ul>
+                                    <li>Rotation_Mechanism_Assembly (Connected to R-001, I-001)</li>
+                                    <li>Temperature_Control_System (Connected to R-002, I-002)</li>
+                                    <li>User_Interface_Panel (Connected to R-003, I-003)</li>
+                                </ul>
+                                <p><strong>Connected to:</strong> Requirements, Issues, Dashboard</p>
+                            `;
+                        } else if (nodeClass.includes('scenario-node')) {
+                            nodeType = 'Scenario';
+                            details = `
+                                <h4>Scenarios</h4>
+                                <p>Total: 3 scenarios</p>
+                                <ul>
+                                    <li>Power Efficiency Scenario</li>
+                                    <li>Climate Control Scenario</li>
+                                    <li>User Monitoring Scenario</li>
+                                </ul>
+                                <p><strong>Connected to:</strong> Tasks</p>
+                            `;
+                        } else if (nodeClass.includes('task-node')) {
+                            nodeType = 'Task';
+                            details = `
+                                <h4>Tasks</h4>
+                                <p>Total: 9 tasks</p>
+                                <p><strong>Connected to:</strong> Scenarios, Goals</p>
+                            `;
+                        } else if (nodeClass.includes('goal-node')) {
+                            nodeType = 'Goal';
+                            details = `
+                                <h4>Goals</h4>
+                                <p>Total: 5 goals</p>
+                                <p><strong>Connected to:</strong> Tasks, Requirements</p>
+                            `;
+                        } else if (nodeClass.includes('rule-node')) {
+                            nodeType = 'Rule';
+                            details = `
+                                <h4>Validation Rules</h4>
+                                <p>Total: 42 rules (28 passing, 7 failing, 7 pending)</p>
+                                <p><strong>Connected to:</strong> Requirements, Validation</p>
+                            `;
+                        } else if (nodeClass.includes('validation-node')) {
+                            nodeType = 'Validation';
+                            details = `
+                                <h4>Validation</h4>
+                                <p>Overall validation status: 67% complete</p>
+                                <p><strong>Connected to:</strong> Rules, Kano Model</p>
+                            `;
+                        } else if (nodeClass.includes('kano-node')) {
+                            nodeType = 'Kano Classification';
+                            details = `
+                                <h4>Kano Classification</h4>
+                                <p>Distribution:</p>
+                                <ul>
+                                    <li>Must-Have: 24 requirements</li>
+                                    <li>Performance: 10 requirements</li>
+                                    <li>Attractive: 8 requirements</li>
+                                </ul>
+                                <p><strong>Connected to:</strong> Validation, CAD Components</p>
+                            `;
+                        } else if (nodeClass.includes('dashboard-node')) {
+                            nodeType = 'Dashboard';
+                            details = `
+                                <h4>Dashboard</h4>
+                                <p>Project: Smart Rotating Greenhouse</p>
+                                <p>Overall Progress: 67%</p>
+                                <p><strong>Connected to:</strong> All framework elements</p>
+                            `;
+                        }
+                        
+                        detailsContainer.innerHTML = details;
+                    });
+                    
+                    // Hover effects
+                    node.addEventListener('mouseenter', function() {
+                        const circle = this.querySelector('circle');
+                        if (circle && circle.getAttribute('stroke') !== '#ffffff') {
+                            circle.setAttribute('stroke', '#e9ecef');
+                            circle.setAttribute('stroke-width', '2');
+                        }
+                    });
+                    
+                    node.addEventListener('mouseleave', function() {
+                        const circle = this.querySelector('circle');
+                        if (circle && circle.getAttribute('stroke') !== '#ffffff') {
+                            circle.setAttribute('stroke', 'none');
+                            circle.setAttribute('stroke-width', '0');
+                        }
+                    });
+                });
+            }
+            
+            // Milestone traceability diagram interactivity
+            if (milestoneNodes && milestoneDetailsContainer) {
+                milestoneNodes.forEach(node => {
+                    node.addEventListener('click', function() {
+                        // Reset all nodes
+                        milestoneNodes.forEach(n => {
+                            const circle = n.querySelector('circle');
+                            if (circle) {
+                                circle.setAttribute('stroke', 'none');
+                                circle.setAttribute('stroke-width', '0');
+                            }
+                        });
+                        
+                        // Highlight selected node
+                        const circle = this.querySelector('circle');
+                        if (circle) {
+                            circle.setAttribute('stroke', '#ffffff');
+                            circle.setAttribute('stroke-width', '3');
+                        }
+                        
+                        // Get node type from class
+                        const nodeClass = this.getAttribute('class');
+                        let details = '';
+                        
+                        if (nodeClass.includes('milestone-node')) {
+                            details = `
+                                <h4>Sprint 1</h4>
+                                <p>Status: In Progress (Jun 1 - Jun 14, 2025)</p>
+                                <p>Contains 3 issues, implementing 3 requirements</p>
+                                <p><strong>Connected to:</strong> Issues I-001, I-002, I-003</p>
+                            `;
+                        } else if (nodeClass.includes('issue-node')) {
+                            const issueId = this.querySelector('text').textContent;
+                            if (issueId === 'I-001') {
+                                details = `
+                                    <h4>Issue I-001: Implement power consumption monitoring</h4>
+                                    <p>Status: Open</p>
+                                    <p>Assignee: John Doe</p>
+                                    <p><strong>Implements:</strong> R-001</p>
+                                    <p><strong>Affects:</strong> Rotation Mechanism Assembly (C1)</p>
+                                `;
+                            } else if (issueId === 'I-002') {
+                                details = `
+                                    <h4>Issue I-002: Design temperature control system</h4>
+                                    <p>Status: In Progress</p>
+                                    <p>Assignee: Jane Smith</p>
+                                    <p><strong>Implements:</strong> R-002</p>
+                                    <p><strong>Affects:</strong> Temperature Control System (C2)</p>
+                                `;
+                            } else if (issueId === 'I-003') {
+                                details = `
+                                    <h4>Issue I-003: Create user interface mockups</h4>
+                                    <p>Status: Closed</p>
+                                    <p>Assignee: Alex Johnson</p>
+                                    <p><strong>Implements:</strong> R-003</p>
+                                    <p><strong>Affects:</strong> UI Panel (C3)</p>
+                                `;
+                            }
+                        } else if (nodeClass.includes('requirement-node')) {
+                            const reqId = this.querySelector('text').textContent;
+                            if (reqId === 'R-001') {
+                                details = `
+                                    <h4>Requirement R-001</h4>
+                                    <p>The rotation mechanism shall operate under 30W power</p>
+                                    <p><strong>Implemented by:</strong> I-001</p>
+                                    <p><strong>Affects:</strong> Rotation Mechanism Assembly (C1)</p>
+                                `;
+                            } else if (reqId === 'R-002') {
+                                details = `
+                                    <h4>Requirement R-002</h4>
+                                    <p>The system shall maintain internal temperature within ±2°C of target</p>
+                                    <p><strong>Implemented by:</strong> I-002</p>
+                                    <p><strong>Affects:</strong> Temperature Control System (C2)</p>
+                                `;
+                            } else if (reqId === 'R-003') {
+                                details = `
+                                    <h4>Requirement R-003</h4>
+                                    <p>The user interface shall display real-time energy consumption</p>
+                                    <p><strong>Implemented by:</strong> I-003</p>
+                                    <p><strong>Affects:</strong> UI Panel (C3)</p>
+                                `;
+                            }
+                        } else if (nodeClass.includes('cad-node')) {
+                            const cadId = this.querySelector('text').textContent;
+                            if (cadId === 'C1') {
+                                details = `
+                                    <h4>CAD Component: Rotation Mechanism Assembly</h4>
+                                    <p>Type: Assembly | Version: 2.3</p>
+                                    <p><strong>Implements:</strong> R-001</p>
+                                    <p><strong>Affected by:</strong> I-001</p>
+                                `;
+                            } else if (cadId === 'C2') {
+                                details = `
+                                    <h4>CAD Component: Temperature Control System</h4>
+                                    <p>Type: Assembly | Version: 1.8</p>
+                                    <p><strong>Implements:</strong> R-002</p>
+                                    <p><strong>Affected by:</strong> I-002</p>
+                                `;
+                            } else if (cadId === 'C3') {
+                                details = `
+                                    <h4>CAD Component: UI Panel</h4>
+                                    <p>Type: Part | Version: 3.1</p>
+                                    <p><strong>Implements:</strong> R-003</p>
+                                    <p><strong>Affected by:</strong> I-003</p>
+                                `;
+                            }
+                        }
+                        
+                        milestoneDetailsContainer.innerHTML = details;
+                    });
+                    
+                    // Hover effects
+                    node.addEventListener('mouseenter', function() {
+                        const circle = this.querySelector('circle');
+                        if (circle && circle.getAttribute('stroke') !== '#ffffff') {
+                            circle.setAttribute('stroke', '#e9ecef');
+                            circle.setAttribute('stroke-width', '2');
+                        }
+                    });
+                    
+                    node.addEventListener('mouseleave', function() {
+                        const circle = this.querySelector('circle');
+                        if (circle && circle.getAttribute('stroke') !== '#ffffff') {
+                            circle.setAttribute('stroke', 'none');
+                            circle.setAttribute('stroke-width', '0');
+                        }
+                    });
+                });
+            }
+            
+            // Domain Select Change
+            document.getElementById('domainSelect').addEventListener('change', function() {
+                const domain = this.value;
+                // Update domain badge in UI
+            });
+            
+            // Kano Select Change
+            document.getElementById('kanoSelect').addEventListener('change', function() {
+                const kano = this.value;
+                // Update kano badge in UI
+            });
+            
+            // Requirement Statement Change
+            document.getElementById('requirementStatement').addEventListener('input', function() {
+                // Auto-save or update preview
+            });
+            
+            console.log('Interactive UI Mockup Loaded');
+        });
+    </script>
+</body>
+</html>
+
+<!-- Issues Section -->
+                <div class="content-section" id="issues-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Issues</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="newIssueBtn">
+                                <i class="fas fa-plus"></i> New Issue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-tasks"></i> Issue Detail: I-001
+                            </h2>
+                            <div class="card-actions">
+                                <button class="btn btn-success btn-sm" id="completeIssueBtn">
+                                    <i class="fas fa-check"></i> Complete
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Issue ID</label>
+                                    <input type="text" class="form-control" value="I-001" readonly>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-control" id="issueStatusSelect">
+                                        <option selected>Open</option>
+                                        <option>In Progress</option>
+                                        <option>Closed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Milestone</label>
+                                    <select class="form-control" id="issueMilestoneSelect">
+                                        <option selected>Sprint 1</option>
+                                        <option>Sprint 2</option>
+                                        <option>Release 1.0</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Issue Title</label>
+                            <input type="text" class="form-control" value="Implement power consumption monitoring for rotation mechanism">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="issueDescription">Create a monitoring system that tracks and reports power consumption of the rotation mechanism in real-time. The system should alert when consumption approaches the 30W threshold.</textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Inputs</label>
+                                    <div class="requirements-list">
+                                        <div class="requirement-item">
+                                            <div class="requirement-info">
+                                                <div class="requirement-title">R-001: The rotation mechanism shall operate under 30W power</div>
+                                                <div class="requirement-meta">
+                                                    <span class="badge badge-mechanical">Mechanical</span>
+                                                </div>
+                                            </div>
+                                            <div class="requirement-actions">
+                                                <button class="btn btn-outline btn-sm">
+                                                    <i class="fas fa-unlink"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline btn-sm" style="margin-top: 0.5rem;">
+                                        <i class="fas fa-plus"></i> Add Input
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Outputs</label>
+                                    <div class="requirements-list">
+                                        <div class="requirement-item">
+                                            <div class="requirement-info">
+                                                <div class="requirement-title">Power Monitoring Component</div>
+                                                <div class="requirement-meta">
+                                                    <span class="badge badge-electrical">CAD Component</span>
+                                                </div>
+                                            </div>
+                                            <div class="requirement-actions">
+                                                <button class="btn btn-outline btn-sm">
+                                                    <i class="fas fa-unlink"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline btn-sm" style="margin-top: 0.5rem;">
+                                        <i class="fas fa-plus"></i> Add Output
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Assignee</label>
+                            <select class="form-control">
+                                <option selected>John Doe</option>
+                                <option>Jane Smith</option>
+                                <option>Alex Johnson</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="saveIssueBtn">
+                                <i class="fas fa-save"></i> Save Issue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-list"></i> All Issues
+                            </h2>
+                            <div class="card-actions">
+                                <button class="btn btn-outline btn-sm" id="filterIssuesBtn">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="tabs">
+                            <div class="tab active" data-status="all">All Issues</div>
+                            <div class="tab" data-status="open">Open</div>
+                            <div class="tab" data-status="in-progress">In Progress</div>
+                            <div class="tab" data-status="closed">Closed</div>
+                        </div>
+                        
+                        <ul class="requirements-list">
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">I-001: Implement power consumption monitoring</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-pending">Open</span>
+                                        <span>Milestone: Sprint 1</span>
+                                        <span>Assignee: John Doe</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">I-002: Design temperature control system</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-warning">In Progress</span>
+                                        <span>Milestone: Sprint 1</span>
+                                        <span>Assignee: Jane Smith</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item validated">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">I-003: Create user interface mockups</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-validated">Closed</span>
+                                        <span>Milestone: Sprint 1</span>
+                                        <span>Assignee: Alex Johnson</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                
+                <!-- Milestones Section -->
+                <div class="content-section" id="milestones-section">
+                    <div class="page-header">
+                        <h1 class="page-title">Milestones</h1>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="newMilestoneBtn">
+                                <i class="fas fa-plus"></i> New Milestone
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-flag"></i> Milestone Detail: Sprint 1
+                            </h2>
+                            <div class="card-actions">
+                                <button class="btn btn-outline btn-sm" id="editMilestoneBtn">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Milestone Name</label>
+                                    <input type="text" class="form-control" value="Sprint 1" readonly>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-control" id="milestoneStatusSelect">
+                                        <option>Planned</option>
+                                        <option selected>In Progress</option>
+                                        <option>Completed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" value="2025-06-01">
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">End Date</label>
+                                    <input type="date" class="form-control" value="2025-06-14">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="milestoneDescription">First sprint focusing on power efficiency and monitoring systems implementation. Key deliverables include power consumption monitoring, temperature control system design, and initial UI mockups.</textarea>
+                        </div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 33%;"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>Progress</span>
+                                <span>33% (1/3 issues completed)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <label class="form-label">Issues in this Milestone</label>
+                            <ul class="requirements-list">
+                                <li class="requirement-item">
+                                    <div class="requirement-info">
+                                        <div class="requirement-title">I-001: Implement power consumption monitoring</div>
+                                        <div class="requirement-meta">
+                                            <span class="badge badge-pending">Open</span>
+                                            <span>Assignee: John Doe</span>
+                                        </div>
+                                    </div>
+                                    <div class="requirement-actions">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                
+                                <li class="requirement-item">
+                                    <div class="requirement-info">
+                                        <div class="requirement-title">I-002: Design temperature control system</div>
+                                        <div class="requirement-meta">
+                                            <span class="badge badge-warning">In Progress</span>
+                                            <span>Assignee: Jane Smith</span>
+                                        </div>
+                                    </div>
+                                    <div class="requirement-actions">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                
+                                <li class="requirement-item validated">
+                                    <div class="requirement-info">
+                                        <div class="requirement-title">I-003: Create user interface mockups</div>
+                                        <div class="requirement-meta">
+                                            <span class="badge badge-validated">Closed</span>
+                                            <span>Assignee: Alex Johnson</span>
+                                        </div>
+                                    </div>
+                                    <div class="requirement-actions">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Requirements Coverage</label>
+                            <div class="requirements-list">
+                                <div class="requirement-item">
+                                    <div class="requirement-info">
+                                        <div class="requirement-title">R-001: The rotation mechanism shall operate under 30W power</div>
+                                        <div class="requirement-meta">
+                                            <span class="badge badge-mechanical">Mechanical</span>
+                                            <span>Covered by: I-001</span>
+                                        </div>
+                                    </div>
+                                    <div class="requirement-actions">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="requirement-item">
+                                    <div class="requirement-info">
+                                        <div class="requirement-title">R-002: The system shall maintain internal temperature within ±2°C of target</div>
+                                        <div class="requirement-meta">
+                                            <span class="badge badge-embedded">Embedded</span>
+                                            <span>Covered by: I-002</span>
+                                        </div>
+                                    </div>
+                                    <div class="requirement-actions">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="requirement-item">
+                                    <div class="requirement-info">
+                                        <div class="requirement-title">R-003: The user interface shall display real-time energy consumption</div>
+                                        <div class="requirement-meta">
+                                            <span class="badge badge-software">Software</span>
+                                            <span>Covered by: I-003</span>
+                                        </div>
+                                    </div>
+                                    <div class="requirement-actions">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="saveMilestoneBtn">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-list"></i> All Milestones
+                            </h2>
+                        </div>
+                        
+                        <div class="tabs">
+                            <div class="tab active" data-status="all">All Milestones</div>
+                            <div class="tab" data-status="active">Active</div>
+                            <div class="tab" data-status="completed">Completed</div>
+                            <div class="tab" data-status="planned">Planned</div>
+                        </div>
+                        
+                        <ul class="requirements-list">
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Sprint 1</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-warning">In Progress</span>
+                                        <span>Jun 1 - Jun 14, 2025</span>
+                                        <span>3 Issues</span>
+                                        <span>33% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Sprint 2</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-pending">Planned</span>
+                                        <span>Jun 15 - Jun 28, 2025</span>
+                                        <span>4 Issues</span>
+                                        <span>0% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                            
+                            <li class="requirement-item validated">
+                                <div class="requirement-info">
+                                    <div class="requirement-title">Release 1.0</div>
+                                    <div class="requirement-meta">
+                                        <span class="badge badge-pending">Planned</span>
+                                        <span>Jul 15, 2025</span>
+                                        <span>2 Issues</span>
+                                        <span>0% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="requirement-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Milestone Traceability -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-project-diagram"></i> Milestone Traceability
+                            </h2>
+                        </div>
+                        
+                        <div class="diagram-container">
+                            <svg id="milestone-traceability-diagram" width="100%" height="500" style="background-color: #f8f9fa; border-radius: 8px; margin-top: 1rem; overflow: visible;">
+                                <!-- Nodes -->
+                                <g id="milestone-diagram-nodes">
+                                    <!-- Milestone -->
+                                    <g class="node milestone-node" transform="translate(350, 80)">
+                                        <circle r="40" fill="#06d6a0"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="16">Sprint 1</text>
+                                        <title>Current Milestone</title>
+                                    </g>
+                                    
+                                    <!-- Issues -->
+                                    <g class="node issue-node" transform="translate(200, 200)">
+                                        <circle r="30" fill="#f8961e"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">I-001</text>
+                                        <title>Issue: Power monitoring</title>
+                                    </g>
+                                    
+                                    <g class="node issue-node" transform="translate(350, 200)">
+                                        <circle r="30" fill="#f8961e"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">I-002</text>
+                                        <title>Issue: Temperature control</title>
+                                    </g>
+                                    
+                                    <g class="node issue-node" transform="translate(500, 200)">
+                                        <circle r="30" fill="#f8961e"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">I-003</text>
+                                        <title>Issue: UI mockups</title>
+                                    </g>
+                                    
+                                    <!-- Requirements -->
+                                    <g class="node requirement-node" transform="translate(150, 320)">
+                                        <circle r="25" fill="#f72585"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">R-001</text>
+                                        <title>Requirement: Power consumption</title>
+                                    </g>
+                                    
+                                    <g class="node requirement-node" transform="translate(250, 320)">
+                                        <circle r="25" fill="#f72585"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">R-002</text>
+                                        <title>Requirement: Temperature control</title>
+                                    </g>
+                                    
+                                    <g class="node requirement-node" transform="translate(450, 320)">
+                                        <circle r="25" fill="#f72585"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">R-003</text>
+                                        <title>Requirement: UI display</title>
+                                    </g>
+                                    
+                                    <!-- CAD Components -->
+                                    <g class="node cad-node" transform="translate(200, 420)">
+                                        <circle r="25" fill="#1abc9c"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">C1</text>
+                                        <title>CAD: Rotation Mechanism</title>
+                                    </g>
+                                    
+                                    <g class="node cad-node" transform="translate(350, 420)">
+                                        <circle r="25" fill="#1abc9c"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">C2</text>
+                                        <title>CAD: Temperature System</title>
+                                    </g>
+                                    
+                                    <g class="node cad-node" transform="translate(500, 420)">
+                                        <circle r="25" fill="#1abc9c"></circle>
+                                        <text x="0" y="5" text-anchor="middle" fill="white" font-size="14">C3</text>
+                                        <title>CAD: UI Panel</title>
+                                    </g>
+                                </g>
+                                
+                                <!-- Connections -->
+                                <g id="milestone-diagram-connections" stroke-width="3">
+                                    <!-- Milestone to Issues -->
+                                    <path d="M350,120 L200,170" stroke="#06d6a0" stroke-dasharray="none"></path>
+                                    <path d="M350,120 L350,170" stroke="#06d6a0" stroke-dasharray="none"></path>
+                                    <path d="M350,120 L500,170" stroke="#06d6a0" stroke-dasharray="none"></path>
+                                    
+                                    <!-- Issues to Requirements -->
+                                    <path d="M200,230 L150,295" stroke="#f8961e" stroke-dasharray="5,5"></path>
+                                    <path d="M200,230 L250,295" stroke="#f8961e" stroke-dasharray="5,5"></path>
+                                    <path d="M350,230 L250,295" stroke="#f8961e" stroke-dasharray="5,5"></path>
+                                    <path d="M500,230 L450,295" stroke="#f8961e" stroke-dasharray="5,5"></path>
+                                    
+                                    <!-- Requirements to CAD -->
+                                    <path d="M150,345 L200,395" stroke="#f72585" stroke-dasharray="5,5"></path>
+                                    <path d="M250,345 L350,395" stroke="#f72585" stroke-dasharray="5,5"></path>
+                                    <path d="M450,345 L500,395" stroke="#f72585" stroke-dasharray="5,5"></path>
+                                    
+                                    <!-- Direct Issue to CAD -->
+                                    <path d="M200,230 C200,300 200,350 200,395" stroke="#f8961e" stroke-dasharray="none"></path>
+                                    <path d="M350,230 C350,300 350,350 350,395" stroke="#f8961e" stroke-dasharray="none"></path>
+                                    <path d="M500,230 C500,300 500,350 500,395" stroke="#f8961e" stroke-dasharray="none"></path>
+                                </g>
+                                
+                                <!-- Legend -->
+                                <g id="milestone-diagram-legend" transform="translate(600, 160)">
+                                    <rect x="0" y="0" width="120" height="160" fill="#ffffff" rx="5" ry="5" stroke="#e9ecef"></rect>
+                                    <text x="10" y="20" font-size="12" font-weight="bold">Legend:</text>
+                                    
+                                    <circle cx="20" cy="45" r="6" fill="#06d6a0"></circle>
+                                    <text x="35" y="49" font-size="11">Milestone</text>
+                                    
+                                    <circle cx="20" cy="75" r="6" fill="#f8961e"></circle>
+                                    <text x="35" y="79" font-size="11">Issue</text>
+                                    
+                                    <circle cx="20" cy="105" r="6" fill="#f72585"></circle>
+                                    <text x="35" y="109" font-size="11">Requirement</text>
+                                    
+                                    <circle cx="20" cy="135" r="6" fill="#1abc9c"></circle>
+                                    <text x="35" y="139" font-size="11">CAD Component</text>
+                                </g>
+                            </svg>
+                            
+                            <div class="diagram-details" style="margin-top: 1rem; padding: 1rem; background-color: var(--gray-light); border-radius: 8px;">
+                                <h3 style="margin-top: 0; font-size: 1rem;">Milestone Traceability Details</h3>
+                                <div id="milestone-diagram-details">
+                                    <p><strong>Sprint 1</strong> covers 3 issues, which implement 3 requirements and affect 3 CAD components.</p>
+                                    <p>Click on any element in the diagram to see its specific connections.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
